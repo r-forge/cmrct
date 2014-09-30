@@ -1,0 +1,10 @@
+Package: CMRCT
+Type: Package
+Title: Fit Capture-Mark-Recapture models in continuous time.
+Version: 1.0
+Date: 2014-09-26
+Author: H. Santin-Janin, D. Fouchet
+Maintainer: hugues.santin-janin <hugues.santin-janin@oncfs.gouv.fr>
+Description: A suite of R routines to fit Capture-Mark-Recapture models in continuous time.
+License: GPL-2
+Depends: Matrix
