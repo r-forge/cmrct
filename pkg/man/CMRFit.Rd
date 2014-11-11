@@ -1,6 +1,6 @@
 \name{CMRFit}
 \alias{CMRFit}
-
+\alias{print.CMRCTFit}
 \title{
 Model fitting
 }
@@ -8,7 +8,9 @@ Model fitting
 'CMRFit' fit a Capture-Mark-Recapture model in continuous time.
 }
 \usage{
-CMRFit(surv, capt, cmrdata, start = 0, method = "BFGS", se.fit = TRUE, latts = FALSE, ...)
+CMRFit(surv, capt, cmrdata, start = 0, method = "BFGS", se.fit = TRUE,
+latts = FALSE, ...)
+\method{print}{CMRCTFit}(x, \dots)
 }
 
 \arguments{
@@ -35,20 +37,23 @@ CMRFit(surv, capt, cmrdata, start = 0, method = "BFGS", se.fit = TRUE, latts = F
   \item{latts}{logical. This argument is only present for experimental purpose and should not be
   used by the user.}
 
-  \item{\dots}{additional arguments to be passed to the optim function (see below).}
+  \item{x}{an object of class 'CMRCTFit'.}
+  
+  \item{\dots}{additional arguments to be passed to or from other methods.}
+
 }
 
 \details{
-ffzerfzerf
+  Fit a Capture-Mark-Recapture model in continuous time.
 }
 \value{
-  An object of class 'CMRFit' containing the following components
+  An object of class 'CMRCTFit' containing the following components:
 
   \item{Survival}{a data.frame containing the survival parameter
-  estimates and their associated stanard error (only if 'se.fit=TRUE')}
+  estimates and their associated standard errors (only if 'se.fit=TRUE')}
 
   \item{Capture}{a data.frame containing the capture parameter
-  estimates and their associated stanard error (only if 'se.fit=TRUE')}
+  estimates and their associated standard errors (only if 'se.fit=TRUE')}
 }
 
 \references{ Fouchet D., Santin-Janin H., Sauvage F., Yoccoz N.-G. &
@@ -65,9 +70,47 @@ CMRData
 }
 
 \examples{
-plot(-1:10, main="CMRFit")
+
+\dontrun{
+##Let define some arguments
+start <- as.POSIXct(strptime("01/01/2000", "\%d/\%m/\%Y"))
+factind <- list(sex=c("M", "F"))
+##numind <- list(weight=c(0.5, 4))
+numtps <- list(rain=c(0, 100))
+
+##Simulate the set of covariables
+set.seed(123)
+simvars <- CMRSimVars(n=15 , npop=4, start=start, step="6 months",
+nstep=12, factind=factind, numtps=numtps, length="5 weeks",
+clage=c(2), minage=0.1, maxage=20)
+
+##Plot the simulated capture occasions
+plot(simvars)
+
+##True model
+surv <- as.formula(~pop + age)
+capt <- as.formula(~t)
+
+##True model parameters values
+surv.pars <- c(-2, 1.5, -0.1, -0.5, 0.3)
+capt.pars <- c(-1, 0.24)
+theta <- c(surv.pars, capt.pars)
+
+##Simulating a dataset
+set.seed(456)
+simdata <- CMRSimData(simvars=simvars, surv=surv, capt=capt, theta=theta)
+
+##Plot the simulated capture occasions and capture histories
+plot(simdata)
+
+##Fit the model
+fit <- CMRFit(surv=surv, capt=capt, cmrdata=simdata)
+fit
+
+}
 }
 
 
 \keyword{Model fitting}
+
 
