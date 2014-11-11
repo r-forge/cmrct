@@ -1,3 +1,4 @@
+tototo
 \name{CMRCT-package}
 \alias{CMRCT-package}
 \alias{CMRCT}
