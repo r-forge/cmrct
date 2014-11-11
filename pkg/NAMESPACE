@@ -1,2 +1,2 @@
-export("CMRData", "CMRFit")
+export("CMRData", "CMRFit", "CMRSimVars", "CMRSimData", "print.CMRCTFit", "print.CMRCTData", "print.CMRCTVars", "plot.CMRCTData", "plot.CMRCTVars")
 import(Matrix)
