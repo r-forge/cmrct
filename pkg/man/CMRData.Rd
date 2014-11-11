@@ -1,5 +1,6 @@
 \name{CMRData}
 \alias{CMRData}
+\alias{print.CMRCTData}
 
 \title{
 Format Capture-Mark-Recapture data	
@@ -11,6 +12,7 @@ Create an object of class CMRData suitable for a call to CMRFit.
 
 \usage{
 CMRData(indvar, sptvar = NULL, captocc, tps = NULL, unit = "year", clage = NULL)
+\method{print}{CMRCTData}(x, \dots)
 }
 
 \arguments{
@@ -25,6 +27,11 @@ CMRData(indvar, sptvar = NULL, captocc, tps = NULL, unit = "year", clage = NULL)
   \item{unit}{(optional) the temporal resolution of the estimate of survival and capture probabilities. 'unit' also define the 'age' unit. It must be defined as the argument 'by' in seq.POSIXt. See ?seq.POSIXt for details. By default 'unit="year"'.}
 
   \item{clage}{(optional) only when 'age' is present in 'indvar'. 'clage' must be a numeric vector defining the superior limit of the n-1 first age classes. For instance, to define three age classes 0:1, 1:2 and +2 'clage' should be 'c(1,2)'. See 'unit' to set age unit.}
+
+  \item{x}{an object of class 'CMRCTData'.}
+  
+  \item{\dots}{additional arguments to be passed to or from other methods.}
+
 }
 
 \details{
@@ -49,10 +56,43 @@ seq.POSIXt, CMRFit
 }
 
 \examples{
-plot(1:10, main="CMRData")
+
+\dontrun{
+##An example with simulated data
+##Let define some arguments
+start <- as.POSIXct(strptime("01/01/2000", "\%d/\%m/\%Y"))
+factind <- list(sex=c("M", "F"))
+##numind <- list(weight=c(0.5, 4))
+numtps <- list(rain=c(0, 100))
+
+##Simulate the set of covariables
+set.seed(123)
+simvars <- CMRSimVars(n=15 , npop=4, start=start, step="6 months",
+nstep=12, factind=factind, numtps=numtps, length="5 weeks",
+clage=c(2), minage=0.1, maxage=20)
+
+##Plot the simulated capture occasions
+plot(simvars)
+
+##True model
+surv <- as.formula(~pop + age)
+capt <- as.formula(~t)
+
+##True model parameters values
+surv.pars <- c(-2, 1.5, -0.1, -0.5, 0.3)
+capt.pars <- c(-1, 0.24)
+theta <- c(surv.pars, capt.pars)
+
+##Simulating a dataset
+set.seed(456)
+simdata <- CMRSimData(simvars=simvars, surv=surv, capt=capt, theta=theta)
+
+##Plot the simulated capture occasions and capture histories
+plot(simdata)
+
+}
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 \keyword{Data}
 
