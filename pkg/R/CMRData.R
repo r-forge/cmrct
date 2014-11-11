@@ -179,16 +179,29 @@ function(indvar, sptvar=NULL, captocc, tps=NULL, unit="year", clage=NULL){
     ## Tableau des covariables #
     ############################
 
-
-    covs.ind <- as.list(indvar[1, colnames(indvar)[!colnames(indvar) %in% c("ind", "date", "age", "datenum")]])
+    ft <- indvar[, colnames(indvar)[!colnames(indvar) %in% c("date", "datenum")]]
+    ft <- unique(ft)
+    ft <- ft[,colnames(ft)[!colnames(ft) %in% c("ind")], drop=FALSE]
+    if(!is.null(clage)){
+        ft$age <- as.factor(findInterval(ft$age, clage))
+        covs.ind <- as.list(ft[1,colnames(ft)[!colnames(ft) %in% c("age")], drop=FALSE])
+    }
+    else{
+        covs.ind <- as.list(ft[1,])
+    }
+    pos.fac <- which(unlist(lapply(ft, class) %in% c("factor", "character")))
+    ind.sum <- ftable(ft[,pos.fac])
     covs.spt <- lapply(sptvar, function(x){
             ncov <- colnames(x)[!colnames(x) %in% c("ind", "pop", "date", "datenum")]
             x[1, ncov]
         })
     if(!is.null(clage)){
         lage <- list(age=as.factor(c(0,1:length(clage)))[1])
+        covs <- data.frame(c(covs.ind, covs.spt, lage, ltps), check.names = FALSE)[1,]
     }
-    covs <- data.frame(c(covs.ind, covs.spt, lage, ltps), check.names = FALSE)[1,]
+    else{
+        covs <- data.frame(c(covs.ind, covs.spt, ltps), check.names = FALSE)[1,]
+    }
 
 
     ######################################
@@ -199,7 +212,7 @@ function(indvar, sptvar=NULL, captocc, tps=NULL, unit="year", clage=NULL){
     ##Transformation en indicatrices
     indvar0 <- formatvar(indvar)
     dl <- indvar0
-   if(!is.null(sptvar)) dl <- c(dl, sptvar0 <- formatvar(sptvar))
+    if(!is.null(sptvar)) dl <- c(dl, sptvar0 <- formatvar(sptvar))
 
     ##Ajout de t et T a dl
     dl <- c(dl, ftps)
@@ -214,11 +227,12 @@ function(indvar, sptvar=NULL, captocc, tps=NULL, unit="year", clage=NULL){
         int <- x[1,!colnames(x) %in% c("ind", "pop", "date", "datenum")]
     }), check.names = FALSE)
 
-    ltab <- list(covs=dl, capt=indvar[, c("ind", "pop", "date", "datenum")],
+    ltab <- list(covs=dl, capt=indvar[order(indvar$pop, indvar$ind, indvar$datenum), c("ind", "pop", "date", "datenum")],
                  captocc=captocc)
 
     class(ltab) <- c("CMRCTData", class(ltab))
     attributes(ltab)$varlist <- covs
+    attributes(ltab)$indsum <- ind.sum
     attributes(ltab)$indlist <- inds
     return(ltab)
 
