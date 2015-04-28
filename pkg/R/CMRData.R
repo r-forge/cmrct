@@ -187,7 +187,7 @@ function(indvar, sptvar=NULL, captocc, tps=NULL, unit="year", clage=NULL){
         covs.ind <- as.list(ft[1,colnames(ft)[!colnames(ft) %in% c("age")], drop=FALSE])
     }
     else{
-        covs.ind <- as.list(ft[1,])
+        covs.ind <- as.list(ft[1,,drop=FALSE])
     }
     pos.fac <- which(unlist(lapply(ft, class) %in% c("factor", "character")))
     ind.sum <- ftable(ft[,pos.fac])

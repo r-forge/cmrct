@@ -49,7 +49,7 @@ function(simvars, surv, capt, theta){
     his <- c(his, ltvec[pos])
 
     capts <- do.call("rbind", lapply(1:length(his), function(x) data.frame(ind=names(his)[x], datenum=his[[x]])))
-    capts <- data.frame(capts, simvars$ind[match(capts$ind, simvars$indvar$ind), !colnames(simvars$ind) %in% c("ind", "date", "datenum")])
+    capts <- data.frame(capts, simvars$ind[match(capts$ind, simvars$indvar$ind), !colnames(simvars$ind) %in% c("ind", "date", "datenum"), drop=FALSE])
     capts$date <- (capts$datenum * simvars$unitnum) + min(simvars$captocc$start)
     capts <- capts[,colnames(capts)!="datenum"]
     capts <- capts[order(id2num(capts$ind), capts$date),]

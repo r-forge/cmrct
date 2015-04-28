@@ -4,6 +4,9 @@ function(x, exep=c("date", "datenum", "ind", "pop", "age")){
 	#if(length(nn)==0) return(x)
 	resl <- list()
 	for(i in 1:length(nn)){
+ 		if (is.factor(x[, nn[i]]) & (nlevels(x[,nn[i]]) == 1)) {
+      			x[, nn[i]] <- as.numeric(x[, nn[i]])
+		}
 		if( is.factor(x[,nn[i]])){
 			x[,nn[i]] <- as.factor(as.character(x[,nn[i]]))
 			mm <- model.matrix(~-1+., data=x[,nn[i], drop=FALSE])
