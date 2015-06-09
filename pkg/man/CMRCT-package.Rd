@@ -23,14 +23,13 @@ License: \tab GPL-2\cr
 
 }
 
-\author{H. Santin-Janin, D. Fouchet
+\author{Hugues Santin-Janin, David Fouchet
 
-  Maintainer: H Santin-Janin <hugues.santin-janin@oncfs.gouv.fr>
+  Maintainer: Hugues Santin-Janin <hugues_sj@yahoo.fr>
 }
 
 \references{ Fouchet D., Santin-Janin H., Sauvage F., Yoccoz N.-G. &
-Pontier D. (submitted) An R package for analysing survival from
-capture-mark-recapture non-standard protocols using continuous time
-capture-recapture models.}
+Pontier D. (submitted) An R package for analyzing survival using
+continuous-time open capture-recapture models: an example with feral cats on sub-Antarctic islands.}
 
 \keyword{package}

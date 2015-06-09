@@ -62,12 +62,12 @@ An object of class CMRCTSimVars.
 }
 
 \references{ Fouchet D., Santin-Janin H., Sauvage F., Yoccoz N.-G. &
-Pontier D. (submitted) An R package for analysing survival from
-capture-mark-recapture non-standard protocols using continuous time
-capture-recapture models.}
+Pontier D. (submitted) An R package for analyzing survival using
+continuous-time open capture-recapture models: an example with feral cats on sub-Antarctic islands.}
+
 
 \author{
-H. Santin-Janin (hugues.santin-janin@oncfs.gouv.fr) and D. Fouchet (david.fouchet@univ-lyon1.fr)
+Hugues Santin-Janin (hugues_sj@yahoo.fr) and David Fouchet (david.fouchet@univ-lyon1.fr)
 }
 
 \seealso{

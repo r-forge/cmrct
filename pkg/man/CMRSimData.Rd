@@ -37,12 +37,12 @@ An object of class 'CMRCTData'.
 }
 
 \references{ Fouchet D., Santin-Janin H., Sauvage F., Yoccoz N.-G. &
-Pontier D. (submitted) An R package for analysing survival from
-capture-mark-recapture non-standard protocols using continuous time
-capture-recapture models.}
+Pontier D. (submitted) An R package for analyzing survival using
+continuous-time open capture-recapture models: an example with feral cats on sub-Antarctic islands.}
+
 
 \author{
-H. Santin-Janin (hugues.santin-janin@oncfs.gouv.fr) and D. Fouchet (david.fouchet@univ-lyon1.fr)
+Hugues Santin-Janin (hugues_sj@yahoo.fr) and David Fouchet (david.fouchet@univ-lyon1.fr)
 }
 
 \seealso{
@@ -73,9 +73,13 @@ surv <- as.formula(~pop + age)
 capt <- as.formula(~t)
 
 ##True model parameters values
+#Survival parameters: Intercept, pop2, pop3, pop4, age1
 surv.pars <- c(-2, 1.5, -0.1, -0.5, 0.3)
+#Capture parameters: Intercept, t
 capt.pars <- c(-1, 0.24)
 theta <- c(surv.pars, capt.pars)
+
+
 
 ##Simulating a dataset
 set.seed(456)
